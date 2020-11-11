@@ -39,6 +39,7 @@ const App = () => {
         data={items}
         renderItem={({ item }) => (
           <ListItem
+            id={item.id}
             item={item.name}
             deleteItem={deleteItem}
           />
