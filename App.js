@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  Alert,
+  FlatList,
+  StyleSheet
+} from 'react-native';
 import uuid from 'uuid';
 
 import Header from './components/Header';
 import ListItem from './components/ListItem';
+import AddItem from './components/AddItem';
 
 const App = () => {
   const [items, setItems] = useState([
@@ -25,6 +31,23 @@ const App = () => {
     },
   ]);
 
+  const addItem = (name) => {
+    if (!name) {
+      Alert.alert('Error', 'Please enter a name', [
+        {
+          text: 'OK'
+        }
+      ]);
+    }
+    setItems(prevItems => {
+      return [{
+        id: uuid(),
+        name
+      },
+      ...prevItems];
+    });
+  };
+
   const deleteItem = (id) => {
     setItems(prevItems => {
       console.log(id);
@@ -35,6 +58,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Header title="Shopping List" />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={({ item }) => (
